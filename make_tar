@@ -1,0 +1,2 @@
+tarball=${1:-../mag2.tgz}
+tar cvzf $tarball --exclude=.git* .

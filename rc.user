@@ -12,11 +12,9 @@
 
 watchdog_PIL -s 5 -- cat /proc/driver/acq400/0/Qstats >/dev/null &
 
-(
-	/usr/local/epics/scripts/wait_ioc_ready
-	sleep 10
-	soft_trigger 1
-) &
+# trigger AWG. sleep may be longer than required
+sleep 10
+soft_trigger 1
 
 
 

@@ -1,8 +1,5 @@
 #!/bin/sh
 
-(
-	/usr/local/epics/scripts/wait_ioc_ready
-	set.site 101 muxpattern on /mnt/local/mag2/dawg-running-bit-pattern
-) &
+set.site 101 muxpattern on /mnt/local/mag2/dawg-running-bit-pattern
 
 

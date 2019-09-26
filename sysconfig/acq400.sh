@@ -1,2 +1,1 @@
 REBOOT_KNOB=y
-S
