@@ -1,0 +1,27 @@
+#!/bin/sh
+# clock init for MAG2
+# acq2106+4xACQ436+AO420
+
+mag2_init_clocks() {
+(
+	/usr/local/epics/scripts/wait_ioc_ready
+        set.site 0 SYS:CLK:FPMUX=XCLK          
+        set.site 0 SIG:CLK_MB:FIN=32768000     
+        set.site 0 SYS:CLK:OE_CLK1_ZYNQ 1 
+	set.site 0 SIG:CLK_MB:SET=49152000
+
+	# AI 49152000 / 2 / 512 = 48000
+	set.site 1 clk=1,1,1
+	set.site 1 CLKDIV=2
+
+	# AO 49152000 / 512 = 96000
+	set.site 101 clk=1,1,1
+	set.site 101 clkdiv=512
+	set.site 101 trg=1,1,1
+) &
+}
+
+NB=$(cat /sys/module/acq420fmc/parameters/nbuffers)
+echo $(($NB-10)) > /sys/module/acq420fmc/parameters/distributor_first_buffer
+
+mag2_init_clocks

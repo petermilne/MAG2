@@ -1,0 +1,11 @@
+# dawg-running-bit-pattern
+# walk one switch per mux at a time 
+# The time is msec until start.
+# First entry must be zero (no wait). We duplicate the last entry 
+# in order to stretch the final state to +1020
++1020  0x00000001    0x00000002
++1020  0x00000002    0x00000004
++1020  0x00000004    0x00000008
++1020  0x00000008    0x00000010
++1020  0x00000010    0x00000000
+

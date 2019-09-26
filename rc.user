@@ -1,0 +1,22 @@
+# DEFAULT init for acq435, 43500 Hz, auto soft trigger
+/usr/local/CARE/acq2106\+acq43x.init
+# Local clock and soft trigger
+
+# mag2 customization
+/mnt/local/mag2/mag2_init_clocks
+/mnt/local/mag2/setup_continuous_wf
+/mnt/local/mag2/setup_dawg
+
+#cp /mnt/local/acq400_streamd.0.conf-soft_trigger \
+#        /etc/sysconfig/acq400_streamd.0.conf
+
+watchdog_PIL -s 5 -- cat /proc/driver/acq400/0/Qstats >/dev/null &
+
+(
+	/usr/local/epics/scripts/wait_ioc_ready
+	sleep 10
+	soft_trigger 1
+) &
+
+
+

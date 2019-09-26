@@ -1,0 +1,34 @@
+AOSITES=${1:-101,102,103,104,6}
+# Set Master clkdiv and map to soft_trigger
+
+[ -e /mnt/local/bb ] && cp /mnt/local/bb /usr/local/bin
+
+echo 1048576 >  /etc/acq400/0/dist_bufferlen_load
+echo 768000  >  /etc/acq400/0/dist_bufferlen_play
+
+(
+# defer until ready
+/usr/local/epics/scripts/wait_ioc_ready
+case $AOSITES in
+101,102,6)
+	pad=0
+	DATFILE=/mnt/local/dat_files/8interleave-64.dat;;
+101,102,103,104,6)
+	pad=2
+	get.site 0 distributor 
+	DATFILE=/mnt/local/mag2/SJO-4_16_sine.dat;;
+*)
+	echo sorry case $AOSITES NOT supported
+	exit 1;;
+esac
+
+echo play0 $AOSITES
+play0 $AOSITES $pad
+set.site 0 distributor
+set.site 101 dac_mux_master fff
+
+echo play it again sam on 54205
+nc localhost 54205 < $DATFILE 
+#echo "nc localhost 54205 from $DATFILE"
+)&
+

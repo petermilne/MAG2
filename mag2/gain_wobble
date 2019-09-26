@@ -1,0 +1,10 @@
+#!/bin/sh
+
+while [ 1 ]; do
+	for dc in $(seq -- -10000 100 10000); do
+		set.site 6 D1 $dc
+		usleep 1000
+	done
+done
+
+
